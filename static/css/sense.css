@@ -63,12 +63,12 @@ body.fouc {
   
   z-index: 1003;
   margin-top: 22px;
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
 }
 .ui-state-focus {
   margin: auto !important;
@@ -90,7 +90,7 @@ body.fouc {
   top: 0;
   left: 0;
   right: 0;
-  
+
   z-index: 10;
 }
 #history_popup .modal-footer {
@@ -98,7 +98,7 @@ body.fouc {
   bottom: 0;
   left: 0;
   right: 0;
-  
+
   z-index: 10;
 }
 #history_popup .nav {

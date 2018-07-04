@@ -1,9 +1,8 @@
-define(["_"],function(api){return function (api) {
-var INDEX_SETTING = {
-  __one_of: ['analyzed', 'not_analyzed', 'no']
-}, BOOLEAN = {
+var BOOLEAN = {
   __one_of: [true, false]
 };
+
+define(["_"],api=>function (api) {
   api.addEndpointDescription('_get_mapping', {
     methods: ['GET'],
     priority: 10, // collides with get doc by id
@@ -55,7 +54,7 @@ var INDEX_SETTING = {
         'enabled': BOOLEAN
       },
       '_field_names': {
-        'index': INDEX_SETTING
+        'index': BOOLEAN
       },
       '_routing': {
         'required': BOOLEAN,
@@ -77,43 +76,26 @@ var INDEX_SETTING = {
       'dynamic_date_formats': ['yyyy-MM-dd'],
       'date_detection': BOOLEAN,
       'numeric_detection': BOOLEAN,
-      'transform': {
-        __template: {
-          script: {}
-        },
-        __one_of: [
-          {
-            __scope_link: "GLOBAL.script"
-          },
-          [
-            {
-              __scope_link: "GLOBAL.script"
-            }
-          ]
-        ]
-
-
-      },
       'properties': {
         '*': {
           type: {
-            __one_of: ['string', 'float', 'double', 'byte', 'short', 'integer', 'long', 'date', 'boolean',
+            __one_of: ['text', 'keyword', 'float', 'half_float', 'scaled_float', 'double', 'byte', 'short', 'integer', 'long', 'date', 'boolean',
               'binary', 'object', 'nested', "geo_point", "geo_shape"
             ]
           },
 
           // strings
           store: BOOLEAN,
-          index: INDEX_SETTING,
           doc_values:BOOLEAN,
+          index: BOOLEAN,
           term_vector: {
             __one_of: ['no', 'yes', 'with_offsets', 'with_positions', 'with_positions_offsets']
           },
           boost: 1.0,
           null_value: '',
-          omit_norms: {
-            __one_of: [true, false]
-          },
+
+          norms: BOOLEAN,
+
           index_options: {
             __one_of: ['docs', 'freqs', 'positions']
           },
@@ -128,6 +110,7 @@ var INDEX_SETTING = {
           // numeric
           precision_step: 4,
           ignore_malformed: BOOLEAN,
+          scaling_factor: 100,
 
           // geo_point
           lat_lon: {
@@ -211,7 +194,7 @@ var INDEX_SETTING = {
               __scope_link: '_put_mapping.type.properties.field'
             }
           },
-          copy_to: {__one_of: ['{field}', ['{field}']]},
+          copy_to: { __one_of: ['{field}', ['{field}']] },
 
           // nested
           include_in_parent: BOOLEAN,
@@ -232,4 +215,4 @@ var INDEX_SETTING = {
       }
     }
   });
-}});
+})
